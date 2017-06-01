@@ -1,5 +1,7 @@
 package com.xueyou.demo;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
 import dto.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,18 @@ public class App {
     private static RestTemplate restTemplate = new RestTemplate();
 
     public static void main(String[] args) {
+        IntervalDemo.intervalTimer();
+    }
+
+    public void doLog() {
+        logger.debug("this is a test debug");
+
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        StatusPrinter.print(lc);
+
+    }
+
+    public void testRestHttpRequest() {
         //get方式
 //        Student student = restTemplate.getForObject("http://localhost:8080/test/greeting2?id=10&name=xueyou", Student.class);
 //        logger.info(student.toString());
@@ -30,6 +44,5 @@ public class App {
         requestParams.add("name", "xueyou");
         Student student2 = restTemplate.postForObject("http://localhost:8080/test/greeting2", requestParams, Student.class);
         logger.info(student2.toString());
-
     }
 }
